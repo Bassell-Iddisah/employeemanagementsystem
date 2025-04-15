@@ -1,0 +1,76 @@
+	Inputs:
+
+Lists
+Sets
+Maps
+Generics
+Iterators
+Comparators
+Comparable
+Streams
+
+	Outputs:
+
+Simple Employee Management System
+
+
+	Main Tasks:
+1. Implement Comparable <Employee<T>> to sort employees by years of experience (descending order).
+
+	Functions:
+Add
+Manage
+Search
+Filter
+Sort.
+
+2. Implement the employee Database (Using Collections & CRUD operations). Use HashMap<T, Employee<T>> to store employees (employeeid as the key, Employee object as value)
+
+	Functions:
+Create: addEmployee(Employee<T> employee)
+Read: getAllEmployees()
+Update: updateEmployeeDetails(T employeeId, String field, Object newValue)
+Delete: removeEmployee(T employeeId)
+
+3. Searching & filtering Employees (Streams & Iterators). Methods to search for employees by:
+
+	Methods:
+Department: Get all employees in each department.
+Name: Get employees whose name contains a search term.
+Minimum performance rating: Rating >= 4.0.
+Employees within minimum salary range: Eg>: between $50,000 - $100,000 [Stream API for filtering operations.]
+Iterator to traverse and display all employees.
+
+4. Sorting Employees (Comparable & Comparator)
+Implement sorting using:
+a. Comparable<Employee<T>> (Sort employees by years of experience, most experienced first).
+b. Comparator<Employee<T>> for custom serting: {
+    EmployeeSalarayComparator: Sorts employees by higher salary first.
+    EmployeePerformanceComparator: Sorts employees by best performance first.
+}
+
+5. Salary Management (Collections & Streams)
+Implement methods to:
+	a. Salary raise to employees with rating >= 4.5
+	b. Get top 5 highest-paid employees.
+	c. Average salary of employees in a department. [Lists & Streams for efficient salary processing and analytics]
+
+6. Display Employees (For-Each & Streams)
+Implement a structured way to display employees:
+	a. for-each loop to print employee details
+	b. Stream API to generate formatted reports.
+	c. Clean, well-formatted console output[alignments, spacing]
+
+7. Simple JavaFX User Interface
+Simple GUI for managing employees
+	Features:
+Employee List Display
+Add & Remove Employees
+Search & Filter Employees
+Sort Employees
+
+
+
+Constraints:
+
+Edge cases:
