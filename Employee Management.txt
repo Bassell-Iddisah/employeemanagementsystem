@@ -1,0 +1,125 @@
+## Objectives
+
+- Implement Java Collections Framework using Lists, Sets, and Maps.
+- Apply Generics to create type-safe and reusable data structures.
+- Utilize Stream API and Iterators for searching and filtering employees.
+- Implement Comparable and Comparator for custom sorting.
+- Manage and manipulate employee records using CRUD operations.
+- **Develop a simple JavaFX user interface** to display, add, remove, search, and sort employees.
+
+## **Employee Management System**
+
+Develop an **Employee Management System** that enables a company to **add, manage, search, filter, and sort employees** using the **Java Collections Framework & Generics**. This project will reinforce the use of **Lists, Sets, Maps, Generics, Iterators, Comparators, Comparable, and Streams** while efficiently handling employee records.
+
+## **Tasks to Accomplish**
+
+### **Task 1: Define the Employee Class (Generics & Comparable)**
+
+Create a **generic class** Employee<T> where T represents a unique identifier (e.g., UUID or Integer).
+
+Attributes:
+
+- T employeeId (Unique ID)
+- String name (Full name)
+- String department (e.g., HR, IT, Finance)
+- double salary (Employee’s salary)
+- double performanceRating (0-5 scale)
+- int yearsOfExperience
+- boolean isActive (Employment status)
+
+Implement Comparable<Employee<T>> to **sort employees by years of experience (descending order)**.
+
+### **Task 2: Implement the Employee Database (Using Collections & CRUD Operations)**
+
+Use **HashMap<T, Employee<T>>** to store employees (employeeId as the key, Employee object as the value).
+
+Implement CRUD (Create, Read, Update, Delete) operations:
+
+- addEmployee(Employee<T> employee): Add a new employee.
+- removeEmployee(T employeeId): Remove an employee from the system.
+- updateEmployeeDetails(T employeeId, String field, Object newValue): Dynamically update employee attributes.
+- getAllEmployees(): Retrieve and display all employees.
+
+### **Task 3: Searching & Filtering Employees (Streams & Iterators)**
+
+Implement methods to **search for employees** by:
+
+- **Department** (Retrieve all employees in each department).
+- **Name** (Retrieve employees whose name contains a search term)
+- Employees with **minimum performance rating (e.g., rating >= 4.0)**.
+- Employees within a **specific salary range** (e.g., between $50,000 - $100,000).
+    
+    🔹 Use **Stream API** for filtering operations.
+    
+    🔹 Implement an **Iterator** to traverse and display all employees.
+    
+
+### **Task 4: Sorting Employees (Comparable & Comparator)**
+
+Implement sorting using:
+
+- Comparable<Employee<T>> (Sort employees by **years of experience**, most experienced first).
+- Comparator<Employee<T>> for custom sorting:
+    - EmployeeSalaryComparator: Sorts employees by **salary (highest first)**.
+    - EmployeePerformanceComparator: Sorts employees by **performance rating (best first)**.
+
+### **Task 5: Salary Management (Collections & Streams)**
+
+Implement methods to:
+
+- Give a **salary raise** to employees with high performance ratings (e.g., rating ≥ 4.5).
+- Retrieve the **top 5 highest-paid employees**.
+- Calculate the **average salary of employees** in a specific department.
+    
+    🔹 Use **Lists & Streams** for efficient salary processing and analytics.
+    
+
+### **Task 6: Displaying Employees (For-Each & Streams)**
+
+Implement a structured way to display employees:
+
+- Use a **for-each loop** to print employee details.
+- Use **Stream API** to generate formatted reports.
+- Ensure a clean, **well-formatted console output** (aligned columns, proper spacing).
+
+### **Task 7: Simple JavaFX User Interface**
+
+To make the Employee Management System more **user-friendly**, develop a **basic JavaFX GUI** for managing employees.
+
+### **What to Implement in the UI:**
+
+1. **Employee List Display**
+2. **Add & Remove Employees**
+3. **Search & Filter Employee**
+4. **Sort Employees**
+
+## Expected Outcomes
+
+- Ability to design a real-world Employee Management System using Java Collections.
+- Proficiency in searching, filtering, and sorting data efficiently.
+- Effective use of Generics to enhance code reusability.
+- Ability to traverse and manage large datasets using Iterators and Streams.
+- Generate structured reports using Collections and Streams.
+
+## Grading Criteria
+
+| Criteria | Score | Description |
+| --- | --- | --- |
+| Collections Usage | 20 | Proper implementation of **Lists, Sets, and Maps** to store and manage employees. |
+| Searching & Filtering | 15 | Efficient **search and filter operations** using **Stream API and Iterators**. |
+| Sorting Mechanisms | 15 | Proper use of **Comparable (natural ordering) and Comparator (custom sorting)**. |
+| CRUD Operations | 15 | Implementation of **Create, Read, Update, Delete** functionality using Collections. |
+| Iterators & Streams Usage | 15 | Effective traversal and management of data using **Iterators and Streams** |
+| Code Structure & Readability | 5 | Well-structured, modular, and **properly documented** code with meaningful variable/method names |
+| Report Generation & Presentation | 5 | Properly formatted **output reports and salary analytics** using Streams and for-each loops. |
+|  User Interface (UI) | 10 | Development of a user-friendly interface using JavaFX; clear options for inputting data and performing operations |
+
+## Deliverables
+
+- GitHub Repository – Contains the full project source code with proper commits.
+- Video Recording (10-15 mins) – Demonstrating the implementation of each major concept.
+- **Record using** [ScreenRec](https://screenrec.com/screen-recorder/).
+
+## **Lab Submission Form**
+
+## https://tally.so/r/mY9RBv
