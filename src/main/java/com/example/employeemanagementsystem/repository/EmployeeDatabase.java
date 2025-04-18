@@ -1,7 +1,8 @@
-package com.example.employeemanagementsystem;
+package com.example.employeemanagementsystem.repository;
+
+import com.example.employeemanagementsystem.model.Employee;
 
 import java.util.*;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 
@@ -15,6 +16,8 @@ public class EmployeeDatabase<T> {
 
     // CREATE
     public void addEmployee(Employee<T> employee) {
+        String uniqueId = UUID.randomUUID().toString();
+
         employeeMap.put(employee.getEmployeeId(), employee);
     }
 
@@ -40,7 +43,12 @@ public class EmployeeDatabase<T> {
 
     // DELETE
     public void removeEmployee(T employeeId) {
-        employeeMap.remove(employeeId);
+        if (employeeMap.containsKey(employeeId)) {
+            employeeMap.remove(employeeId);
+            System.out.println("Employee with ID " + employeeId + " removed.");
+        } else {
+            System.out.println("Employee ID not found.");
+        }
     }
 
     // SEARCH by department
