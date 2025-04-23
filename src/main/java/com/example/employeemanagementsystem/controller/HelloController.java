@@ -107,7 +107,7 @@ public class HelloController {
 
         ArrayList<Employee> employees = new ArrayList<>(db.getAllEmployees());
         for (Employee employee: employees) {
-            root.getChildren().add(new TreeItem<>(new Employee<>(employee.getEmployeeId().toString(), employee.getName(), employee.getDepartment(), employee.getSalary(), employee.getPerformanceRating(), employee.getYearsOfExperience(), true)));
+            root.getChildren().add(new TreeItem<>(new Employee<>(employee.getEmployeeId().toString(), employee.getName(), employee.getDepartment(), employee.getSalary(), employee.getPerformanceRating(), employee.getYearsOfExperience(), employeeInService.isSelected())));
         }
 
         employeeTable.setRoot(root);
@@ -158,6 +158,7 @@ public class HelloController {
             String lastName = employeeLastname.getText();
             String selectedDepartment = departmentComboBox.getSelectionModel().getSelectedItem().toString();
             Double salary = Double.parseDouble(employeeSalary.getText());
+            System.out.println("Checkbox selected? " + employeeInService.isSelected());
             boolean isChecked = employeeInService.isSelected();
 
 
