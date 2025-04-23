@@ -60,9 +60,8 @@ public class EmployeeDatabase<T> {
 
     // SEARCH by name part
     public List<Employee<T>> searchByName(String namePart) {
-        return employeeMap.values().stream()
-                .filter(e -> e.getName().toLowerCase().contains(namePart.toLowerCase()))
-                .collect(Collectors.toList());
+        List<Employee<T>> results = employeeMap.values().stream().filter(e -> e.getName().toLowerCase().contains(namePart.toLowerCase())).toList();
+        return results;
     }
 
     // FILTER by performance rating

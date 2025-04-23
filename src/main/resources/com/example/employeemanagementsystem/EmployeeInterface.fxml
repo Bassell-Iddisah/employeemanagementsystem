@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="514.0" prefWidth="745.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.employeemanagementsystem.controller.HelloController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="548.0" prefWidth="745.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.employeemanagementsystem.controller.HelloController">
    <children>
       <TabPane prefHeight="482.0" prefWidth="745.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
@@ -23,9 +23,9 @@
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
 <!--                        <Button fx:id="searchButton" layoutX="631.0" layoutY="119.0" mnemonicParsing="false" text="Search" textAlignment="CENTER" textFill="#685858" />-->
-                        <TextField fx:id="searchFilter" layoutX="414.0" layoutY="119.0" promptText="Enter search query" />
-                        <ComboBox fx:id="filterComboBox" layoutX="563.0" layoutY="119.0" onAction="#filterComboBoxHandler" prefHeight="25.0" prefWidth="131.0" promptText="Filter search by..." />
-                        <TreeTableView fx:id="employeeTable" layoutY="144.0" prefHeight="310.0" prefWidth="745.0">
+                        <TextField fx:id="searchFilter" layoutX="286.0" layoutY="14.0" prefHeight="27.0" prefWidth="201.0" promptText="Enter search query" />
+                        <ComboBox fx:id="filterComboBox" layoutX="166.0" layoutY="15.0" onAction="#filterComboBoxHandler" prefHeight="25.0" prefWidth="120.0" promptText="All Employees" />
+                        <TreeTableView fx:id="employeeTable" layoutY="152.0" prefHeight="366.0" prefWidth="745.0">
                           <columns>
                             <TreeTableColumn fx:id="treeTableid" prefWidth="75.0" text="EmployeeID" />
                             <TreeTableColumn fx:id="treeTableName" prefWidth="75.0" text="Name" />
@@ -36,13 +36,17 @@
                               <TreeTableColumn fx:id="treeTableStatus" prefWidth="129.0" text="Active Status" />
                           </columns>
                         </TreeTableView>
-                        <Button fx:id="searchButton" layoutX="694.0" layoutY="119.0" mnemonicParsing="false" onAction="#searchButtonHandler" text="Search" />
-                        <Text fx:id="employeeWelcomText" layoutX="167.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Employee Management System">
-                           <font>
-                              <Font name="Arial" size="29.0" />
-                           </font>
-                        </Text>
+                        <Button fx:id="searchButton" layoutX="487.0" layoutY="15.0" mnemonicParsing="false" onAction="#searchButtonHandler" text="Find" />
                         <Button fx:id="sortComboBox" layoutX="8.0" layoutY="119.0" mnemonicParsing="false" onAction="#sortComboBoxHandler" text="Show Records" />
+                        <Button fx:id="clearTable" layoutX="688.0" layoutY="120.0" mnemonicParsing="false" onAction="#clearTableHandler" text="Clear" />
+                        <TextField fx:id="employeeFirstname" layoutX="99.0" layoutY="54.0" prefHeight="25.0" prefWidth="124.0" promptText="Firstname..." />
+                        <TextField fx:id="employeeLastname" layoutX="99.0" layoutY="95.0" prefHeight="25.0" prefWidth="124.0" promptText="Lastname..." />
+                        <TextField fx:id="employeeSalary" layoutX="240.0" layoutY="54.0" prefHeight="25.0" prefWidth="115.0" promptText="Salary" />
+                        <ComboBox fx:id="departmentComboBox" layoutX="240.0" layoutY="95.0" onAction="#departmentComboBoxHandler" prefHeight="25.0" prefWidth="111.0" promptText="Select Department" />
+                        <Text layoutX="99.0" layoutY="142.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Employee in service?" />
+                        <CheckBox fx:id="employeeInService" layoutX="215.0" layoutY="129.0" mnemonicParsing="false" onAction="#employeeInServiceHandler" />
+                        <Button fx:id="addEmployeeButton" layoutX="422.0" layoutY="54.0" mnemonicParsing="false" onAction="#addEmployeeButtonHandler" prefHeight="16.0" prefWidth="85.0" text="Add" />
+                        <Button fx:id="deleteEmployeeButton" layoutX="422.0" layoutY="83.0" mnemonicParsing="false" onAction="#deleteEmployeeButtonHandler" prefHeight="16.0" prefWidth="85.0" text="Delete" />
                      </children>
                   </AnchorPane>
             </content>
@@ -53,32 +57,7 @@
                      <children>
                         <SplitPane dividerPositions="0.4993270524899058" prefHeight="453.0" prefWidth="745.0">
                           <items>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-                                 <children>
-                                    <ComboBox fx:id="honorificComboBox" layoutX="18.0" layoutY="70.0" onAction="#honorificComboBoxHandler" prefHeight="25.0" prefWidth="65.0" promptText="Mr" />
-                                    <TextField fx:id="employeeFirstname" layoutX="86.0" layoutY="70.0" prefHeight="25.0" prefWidth="124.0" promptText="Firstname..." />
-                                    <TextField fx:id="employeeLastname" layoutX="228.0" layoutY="70.0" prefHeight="25.0" prefWidth="124.0" promptText="Lastname..." />
-                                    <TextField fx:id="employeeSalary" layoutX="18.0" layoutY="118.0" prefHeight="25.0" prefWidth="191.0" promptText="Salary" />
-                                    <ComboBox fx:id="departmentComboBox" layoutX="227.0" layoutY="118.0" onAction="#departmentComboBoxHandler" prefHeight="25.0" prefWidth="125.0" promptText="Select Department" />
-                                    <Text layoutX="18.0" layoutY="175.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Employee in service?" />
-                                    <Button fx:id="addEmployeeButton" layoutX="28.0" layoutY="271.0" mnemonicParsing="false" onAction="#addEmployeeButtonHandler" prefHeight="30.0" prefWidth="127.0" style="-fx-background-color: #259CD8;" text="Add" textFill="WHITE">
-                                       <font>
-                                          <Font size="20.0" />
-                                       </font>
-                                    </Button>
-                                    <Button fx:id="deleteEmployee" layoutX="226.0" layoutY="271.0" mnemonicParsing="false" onAction="#deleteEmployeeHandler" prefHeight="47.0" prefWidth="116.0" style="-fx-background-color: #e8491d;" text="Delete" textFill="WHITE">
-                                       <font>
-                                          <Font size="20.0" />
-                                       </font>
-                                    </Button>
-                                    <Text layoutX="61.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create/Delete Employee Data" textAlignment="CENTER" underline="true">
-                                       <font>
-                                          <Font name="Arial" size="20.0" />
-                                       </font>
-                                    </Text>
-                                    <CheckBox fx:id="employeeInService" layoutX="140.0" layoutY="162.0" mnemonicParsing="false" onAction="#employeeInServiceHandler" />
-                                 </children>
-                              </AnchorPane>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="369.0">
                                  <children>
                                     <TextField fx:id="employeeID" alignment="CENTER" layoutX="14.0" layoutY="68.0" prefHeight="25.0" prefWidth="232.0" promptText="Enter employee ID" />
@@ -103,10 +82,5 @@
           </Tab>
         </tabs>
       </TabPane>
-      <Text fx:id="statusText" fill="#ff4848" layoutX="6.0" layoutY="504.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Text>
    </children>
 </AnchorPane>

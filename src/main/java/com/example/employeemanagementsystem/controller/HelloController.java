@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.Alert;
 import javafx.scene.text.Text;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -32,13 +33,16 @@ public class HelloController {
     private ComboBox<String> filterComboBox;
 
     @FXML
+    private TextField searchFilter;
+
+    @FXML
     private Button sortButton;
 
     @FXML
     private Button sortComboBox;
 
     @FXML
-    private ComboBox honorificComboBox;
+    private Button clearTable;
 
     @FXML
     private TextField employeeFirstname;
@@ -56,7 +60,7 @@ public class HelloController {
     private CheckBox employeeInService;
 
     @FXML
-    private Text statusText;
+    private Button deleteEmployeeButton;
 
 
     @FXML private TreeTableView<Employee<String>> employeeTable;
@@ -81,7 +85,6 @@ public class HelloController {
     @FXML
     private void initialize() {
         departmentComboBox.getItems().addAll("HR", "IT", "Finance");
-        honorificComboBox.getItems().addAll("Mr.", "Mrs.");
         averageSalaryDepartment.getItems().addAll("HR", "IT", "Finance");
         filterComboBox.getItems().addAll("Departments", "Name", "Performance", "Salary");
 
@@ -123,10 +126,12 @@ public class HelloController {
 
     @FXML
     void searchButtonHandler(ActionEvent event) {
-        ArrayList<Employee> employees = new ArrayList<>(db.getAllEmployees());
-        for (Employee emplployee: employees) {
-            System.out.println(emplployee);
-        }
+        String searchBy = filterComboBox.getValue();
+        String query = searchFilter.getText();
+
+        System.out.println(searchBy);
+        System.out.println();
+        System.out.println(query);
 
 
     }
@@ -142,11 +147,6 @@ public class HelloController {
     }
 
     @FXML
-    void honorificComboBoxHandler(ActionEvent event) {
-
-    }
-
-    @FXML
     void employeeInServiceHandler(ActionEvent event) {
 
     }
@@ -154,8 +154,6 @@ public class HelloController {
     @FXML
     void addEmployeeButtonHandler(ActionEvent event) {
         try {
-//        Integer uniqueID = UUID.randomUUID().toString();
-//            String selectedHonorific = honorificComboBox.getSelectionModel().getSelectedItem().toString();
             String firstName = employeeFirstname.getText();
             String lastName = employeeLastname.getText();
             String selectedDepartment = departmentComboBox.getSelectionModel().getSelectedItem().toString();
@@ -166,11 +164,20 @@ public class HelloController {
 
             db.addEmployee(new Employee<>(UUID.randomUUID().toString(), String.format(firstName + " " + lastName), selectedDepartment, salary, 4.8, 5, isChecked));
             String status = String.format("Employee %s successfully added.", (firstName + " " + lastName));
-            statusText.setText(status);
             System.out.println(status);
         } catch (Exception e) {
             System.out.println(e);
         }
+    }
+
+    @FXML
+    void deleteEmployeeButtonHandler(ActionEvent event) {
+        // Stream hashmap and filter to get object with name contains
+        Employee employeeToDelete = db.searchByName(employeeFirstname.getText()).get(0);
+        db.removeEmployee(employeeToDelete.getEmployeeId().toString());
+        System.out.printf("Successfully deleted %s", employeeFirstname.getText());
+        // Get said object ID
+        // user db.removeEmployee to remove object from hashmap
     }
 
     @FXML
@@ -202,6 +209,11 @@ public class HelloController {
     @FXML
     void averageSalaryDepartmentHandler(ActionEvent event) {
 
+    }
+
+    @FXML
+    void clearTableHandler(ActionEvent event) {
+        employeeTable.getRoot().getChildren().clear();
     }
 
     @FXML

@@ -6,7 +6,6 @@ public class Employee<T> implements Comparable<Employee<T>> {
 
     private T employeeId;
     private final StringProperty employeeIdProperty;
-
     private final StringProperty name;
     private final StringProperty department;
     private final DoubleProperty salary;
