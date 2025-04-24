@@ -10,6 +10,7 @@ public class EmployeeDatabase<T> {
 
     private Map<T, Employee<T>> employeeMap;
 
+    //----------------------- BASIC CRUD -----------------------//
     public EmployeeDatabase() {
         this.employeeMap = new HashMap<>();
     }
@@ -51,6 +52,7 @@ public class EmployeeDatabase<T> {
         }
     }
 
+    //----------------------- SEARCH & FILTER -----------------------//
     // SEARCH by department
     public List<Employee<T>> findByDepartment(String department) {
         return employeeMap.values().stream()
@@ -78,6 +80,7 @@ public class EmployeeDatabase<T> {
                 .collect(Collectors.toList());
     }
 
+    //----------------------- OTHER OPERATIONS -----------------------//
     // SALARY RAISE
     public void giveRaise(double thresholdRating, double raiseAmount) {
         employeeMap.values().stream()

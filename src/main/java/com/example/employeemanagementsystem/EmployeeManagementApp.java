@@ -33,7 +33,7 @@ public class EmployeeManagementApp {
 
         db.findByDepartment("IT").forEach(System.out::println);
 
-        // High performers
+        // Search by high performers
         System.out.println("High Performers (rating >= 4.5):");
         System.out.println();
 

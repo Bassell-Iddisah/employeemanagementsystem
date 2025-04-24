@@ -10,6 +10,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.text.Text;
 
 import javax.swing.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -54,6 +56,9 @@ public class HelloController {
     private ComboBox<String> departmentComboBox;
 
     @FXML
+    private Text averageSalaryText;
+
+    @FXML
     private TextField employeeSalary;
 
     @FXML
@@ -61,6 +66,12 @@ public class HelloController {
 
     @FXML
     private Button deleteEmployeeButton;
+
+    @FXML
+    private Button applyRaiseButton;
+
+    @FXML
+    private ComboBox sortEmployees;
 
 
     @FXML private TreeTableView<Employee<String>> employeeTable;
@@ -85,8 +96,9 @@ public class HelloController {
     @FXML
     private void initialize() {
         departmentComboBox.getItems().addAll("HR", "IT", "Finance");
+        sortEmployees.getItems().addAll("ID", "Name", "Department", "Salary", "Performance", "Experience");
         averageSalaryDepartment.getItems().addAll("HR", "IT", "Finance");
-        filterComboBox.getItems().addAll("Departments", "Name", "Performance", "Salary");
+        filterComboBox.getItems().addAll("Department", "Name", "Performance", "Salary");
 
 
         // Set cell value factories (bind to observable properties)
@@ -97,6 +109,13 @@ public class HelloController {
         treeTablePerformance.setCellValueFactory(param -> param.getValue().getValue().performanceRatingProperty());
         treeTableExperience.setCellValueFactory(param -> param.getValue().getValue().yearsOfExperienceProperty());
         treeTableStatus.setCellValueFactory(param -> param.getValue().getValue().isActiveProperty());
+
+        // Add sample employees
+        db.addEmployee(new Employee<>(UUID.randomUUID().toString(), "Alice Johnson", "HR", 55000, 4.6, 5, true));
+        db.addEmployee(new Employee<>(UUID.randomUUID().toString(), "Bob Smith", "IT", 70000, 4.2, 8, true));
+        db.addEmployee(new Employee<>(UUID.randomUUID().toString(), "Carol White", "Finance", 64000, 4.8, 4, false));
+        db.addEmployee(new Employee<>(UUID.randomUUID().toString(), "David Brown", "IT", 85000, 3.9, 10, true));
+        db.addEmployee(new Employee<>(UUID.randomUUID().toString(), "Eva Green", "HR", 53000, 4.9, 2, true));
     }
 
     @FXML
@@ -107,7 +126,7 @@ public class HelloController {
 
         ArrayList<Employee> employees = new ArrayList<>(db.getAllEmployees());
         for (Employee employee: employees) {
-            root.getChildren().add(new TreeItem<>(new Employee<>(employee.getEmployeeId().toString(), employee.getName(), employee.getDepartment(), employee.getSalary(), employee.getPerformanceRating(), employee.getYearsOfExperience(), employeeInService.isSelected())));
+            root.getChildren().add(new TreeItem<>(new Employee<>(employee.getEmployeeId().toString(), employee.getName(), employee.getDepartment(), employee.getSalary(), employee.getPerformanceRating(), employee.getYearsOfExperience(), employee.isActive())));
         }
 
         employeeTable.setRoot(root);
@@ -129,16 +148,51 @@ public class HelloController {
         String searchBy = filterComboBox.getValue();
         String query = searchFilter.getText();
 
-        System.out.println(searchBy);
-        System.out.println();
-        System.out.println(query);
+        TreeItem<Employee<String>> root = new TreeItem<>(new Employee<>("","","",0.0,0.0,0, false));
+        root.setExpanded(true);
 
-
+        // Searching option
+        switch (searchBy) {
+            case "Name":
+                List<Employee<String>> nameResults = db.searchByName(query);
+                for (Employee<String> emp: nameResults) {
+                    TreeItem<Employee<String>> item = new TreeItem<>(emp);
+                    root.getChildren().add(item);
+                }
+                break;
+            case "Department":
+                List<Employee<String>> departmentResults = db.findByDepartment(query);
+                for (Employee<String> emp: departmentResults) {
+                    TreeItem<Employee<String>> item = new TreeItem<>(emp);
+                    root.getChildren().add(item);
+                }
+                break;
+            case "Performance":
+                List<Employee<String>> performanceResults = db.highPerformers(4.5);
+                for (Employee<String> emp: performanceResults) {
+                    TreeItem<Employee<String>> item = new TreeItem<>(emp);
+                    root.getChildren().add(item);
+                }
+                break;
+            case "Salary":
+                String[] salaryRange = query.split(",");
+                double minrange = Double.parseDouble(salaryRange[0]);
+                double maxrange = Double.parseDouble(salaryRange[1]);
+                List<Employee<String>> salaryResults = db.employeesInSalaryRange(minrange, maxrange);
+                for (Employee<String> emp: salaryResults) {
+                    TreeItem<Employee<String>> item = new TreeItem<>(emp);
+                    root.getChildren().add(item);
+                }
+                break;
+        }
+        employeeTable.setRoot(root);
+        employeeTable.setShowRoot(false);
+//        db.findByDepartment("IT").forEach(System.out::println);
     }
 
     @FXML
-    void honorificMenuButtonHandler(ActionEvent event) {
-
+    void sortEmployeesHandler(ActionEvent event) {
+        System.out.println("Option Selected");
     }
 
     @FXML
@@ -219,39 +273,33 @@ public class HelloController {
 
     @FXML
     void applyRaiseButtonHandler(ActionEvent event) {
-//        // Get the employee ID from the text field
-//        String employeeID = employeeID.getText().toString();
-//
-//        // Retrieve the employee from the database
-//        Employee employee = db.getEmployee(employeeID);
-//
-//        // Check if the employee exists
-//        if (employee != null) {
-//            // Calculate the raise amount (20% of the current salary)
-//            double raiseAmount = employee.getSalary() * 0.20;
-//
-//            // Calculate the new salary
-//            double newSalary = employee.getSalary() + raiseAmount;
-//
-//            // Update the employee's salary
-//            employee.setSalary(newSalary);
-//
-//            // Update the employee in the database (assuming you have an update method)
-//            db.updateEmployeeDetails(employeeID, "salary", employee.getSalary() + (0.20 * employee.getSalary()));
-//
-//            // Display a success message
-//            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Raise applied successfully. New salary: " + newSalary);
-//            alert.showAndWait();
-//        } else {
-//            // Display an error message if the employee is not found
-//            Alert alert = new Alert(Alert.AlertType.WARNING, "Employee not found with ID: " + employeeID);
-//            alert.showAndWait();
-//        }
+        db.giveRaise(4.5, 1000);
+        System.out.println("Ghs1000.00 raise added to all high performance employees.");
     }
 
     @FXML
-    void computeButtonHandler(ActionEvent event) {
-
+    void computeSalaryButtonHandler(ActionEvent event) {
+        String dep = averageSalaryDepartment.getValue();
+        switch (dep) {
+            case "IT":
+                double itAverage = db.averageSalaryByDepartment(dep);
+                BigDecimal bdIt = new BigDecimal(itAverage).setScale(2, RoundingMode.HALF_UP);
+                double roundedIT = bdIt.doubleValue();
+                averageSalaryText.setText(String.format("%f", roundedIT));
+                break;
+            case "Finance":
+                double financeAverage = db.averageSalaryByDepartment(dep);
+                BigDecimal bdFinance = new BigDecimal(financeAverage).setScale(2, RoundingMode.HALF_UP);
+                double roundedFinance = bdFinance.doubleValue();
+                averageSalaryText.setText(String.format("%f", roundedFinance));
+                break;
+            case "HR":
+                double hrAverage = db.averageSalaryByDepartment(dep);
+                BigDecimal bdHR = new BigDecimal(hrAverage).setScale(2, RoundingMode.HALF_UP);
+                double roundedHR = bdHR.doubleValue();
+                averageSalaryText.setText(String.format("%f", roundedHR));
+                break;
+        }
     }
 
 }

@@ -11,7 +11,6 @@
 <?import javafx.scene.control.TreeTableColumn?>
 <?import javafx.scene.control.TreeTableView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="548.0" prefWidth="745.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.employeemanagementsystem.controller.HelloController">
@@ -37,8 +36,8 @@
                           </columns>
                         </TreeTableView>
                         <Button fx:id="searchButton" layoutX="487.0" layoutY="15.0" mnemonicParsing="false" onAction="#searchButtonHandler" text="Find" />
-                        <Button fx:id="sortComboBox" layoutX="587.0" layoutY="119.0" mnemonicParsing="false" onAction="#sortComboBoxHandler" text="Show Records" />
-                        <Button fx:id="clearTable" layoutX="688.0" layoutY="119.0" mnemonicParsing="false" onAction="#clearTableHandler" text="Clear" />
+                        <Button fx:id="sortComboBox" layoutX="534.0" layoutY="119.0" mnemonicParsing="false" onAction="#sortComboBoxHandler" text="Show Records" />
+                        <Button fx:id="clearTable" layoutX="644.0" layoutY="119.0" mnemonicParsing="false" onAction="#clearTableHandler" text="Clear" />
                         <TextField fx:id="employeeFirstname" layoutX="14.0" layoutY="50.0" prefHeight="25.0" prefWidth="124.0" promptText="Firstname..." />
                         <TextField fx:id="employeeLastname" layoutX="14.0" layoutY="91.0" prefHeight="25.0" prefWidth="124.0" promptText="Lastname..." />
                         <TextField fx:id="employeeSalary" layoutX="155.0" layoutY="50.0" prefHeight="25.0" prefWidth="115.0" promptText="Salary" />
@@ -50,9 +49,10 @@
                         <Button fx:id="applyRaiseButton" layoutX="286.0" layoutY="110.0" mnemonicParsing="false" onAction="#applyRaiseButtonHandler" prefHeight="25.0" prefWidth="85.0" text="Apply Raise" />
                         <ComboBox fx:id="averageSalaryDepartment" layoutX="540.0" layoutY="28.0" onAction="#averageSalaryDepartmentHandler" prefWidth="150.0" promptText="Select Department" />
                         <Text layoutX="540.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Average Salary:" />
-                        <Text layoutX="621.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ghs:" />
-                        <Text fx:id="averageSalaryText" layoutX="649.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-                        <Button fx:id="computeButton" layoutX="540.0" layoutY="67.0" mnemonicParsing="false" onAction="#computeButtonHandler" text="Compute" />
+                        <Text layoutX="541.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ghs:" />
+                        <Text fx:id="averageSalaryText" layoutX="566.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+                        <Button fx:id="computeSalaryButton" layoutX="623.0" layoutY="64.0" mnemonicParsing="false" onAction="#computeSalaryButtonHandler" text="Compute" />
+                        <ComboBox fx:id="sortEmployees" layoutX="445.0" layoutY="119.0" onAction="#sortEmployeesHandler" prefHeight="25.0" prefWidth="85.0" promptText="Sort By:" />
                      </children>
                   </AnchorPane>
             </content>
@@ -64,15 +64,7 @@
                         <SplitPane dividerPositions="0.4993270524899058" prefHeight="453.0" prefWidth="745.0">
                           <items>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="369.0">
-                                 <children>
-                                    <Text layoutX="96.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Manage Employees" underline="true">
-                                       <font>
-                                          <Font name="Arial" size="20.0" />
-                                       </font>
-                                    </Text>
-                                 </children>
-                              </AnchorPane>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="369.0" />
                           </items>
                         </SplitPane>
                      </children>
