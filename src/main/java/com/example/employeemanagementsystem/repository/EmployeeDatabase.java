@@ -1,9 +1,12 @@
 package com.example.employeemanagementsystem.repository;
 
+import com.example.employeemanagementsystem.Exceptions.*;
 import com.example.employeemanagementsystem.model.Employee;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
+
 
 
 public class EmployeeDatabase<T> {
@@ -16,10 +19,21 @@ public class EmployeeDatabase<T> {
     }
 
     // CREATE
-    public void addEmployee(Employee<T> employee) {
+    public void addEmployee(Employee<T> employee) throws InvalidSalaryException, InvalidDepartmentException {
         String uniqueId = UUID.randomUUID().toString();
 
+        if (employee.getSalary()<0){
+            InvalidSalaryException invalidSalaryException=new InvalidSalaryException("Invalid Salary");
+            throw invalidSalaryException;
+        }
+
+        if(employee.getDepartment()==null){
+            InvalidDepartmentException invalidDepartmentException = new InvalidDepartmentException("Invalid Department");
+            throw invalidDepartmentException;
+        }
+
         employeeMap.put(employee.getEmployeeId(), employee);
+
     }
 
     // READ ALL

@@ -68,7 +68,7 @@ public class EmployeeManagementApp {
                 System.out.println(it.next());
             }
 
-        } catch (Exception e) {
+        } catch (InvalidSalaryException | InvalidDepartmentException e) {
             // Generic exception catch block for any unhandled exceptions
             System.err.println("An unexpected error occurred: " + e.getMessage());
         } finally {
@@ -77,7 +77,8 @@ public class EmployeeManagementApp {
     }
 
     // Helper method to validate and add employee safely
-    private static void addEmployeeSafely(EmployeeDatabase<String> db, Employee<String> employee) throws InvalidSalaryException {
+    private static void addEmployeeSafely(EmployeeDatabase<String> db, Employee<String> employee) throws InvalidSalaryException, InvalidDepartmentException {
+
         if (employee.getName() == null || employee.getName().trim().isEmpty()) {
             throw new IllegalArgumentException("Employee name cannot be empty.");
         }
