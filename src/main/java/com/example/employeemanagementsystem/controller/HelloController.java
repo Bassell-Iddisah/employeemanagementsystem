@@ -1,5 +1,8 @@
 package com.example.employeemanagementsystem.controller;
 
+import com.example.employeemanagementsystem.Exceptions.EmployeeNotFoundException;
+import com.example.employeemanagementsystem.Exceptions.EmptyFieldException;
+import com.example.employeemanagementsystem.Exceptions.InvalidSalaryException;
 import com.example.employeemanagementsystem.model.Employee;
 import com.example.employeemanagementsystem.repository.EmployeeDatabase;
 import com.example.employeemanagementsystem.service.EmployeePerformanceComparator;
@@ -22,15 +25,6 @@ import java.util.logging.*;
 public class HelloController {
     EmployeeDatabase<String> db = new EmployeeDatabase<>();
 
-    // Set up the logger
-    public static final Logger logger = Logger.getLogger(HelloController.class.getName());
-
-    static {
-            logger.setLevel(Level.ALL);
-            for (Handler handler: logger.getHandlers()) {
-                handler.setLevel(Level.ALL);
-            }
-    }
 
     // get the n decimal place of any float
     static double round(float d, int decimalPlace) {
@@ -129,7 +123,7 @@ public class HelloController {
             db.addEmployee(new Employee<>(UUID.randomUUID().toString(), "David Brown", "IT", 85000, 3.9, 10, true));
             db.addEmployee(new Employee<>(UUID.randomUUID().toString(), "Eva Green", "HR", 53000, 4.9, 2, true));
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "There was a problem adding employee(s):", e);
+            System.out.println("There was a problem adding employee(s):" + e);
         }
 
         // Set cell value factories (bind to properties)
@@ -189,39 +183,44 @@ public class HelloController {
         root.setExpanded(true);
 
         // Display results as per search option and query
-        switch (searchBy) {
-            case "Name":
-                List<Employee<String>> nameResults = db.searchByName(query);
-                for (Employee<String> emp: nameResults) {
-                    TreeItem<Employee<String>> item = new TreeItem<>(emp);
-                    root.getChildren().add(item);
-                }
-                break;
-            case "Department":
-                List<Employee<String>> departmentResults = db.findByDepartment(query);
-                for (Employee<String> emp: departmentResults) {
-                    TreeItem<Employee<String>> item = new TreeItem<>(emp);
-                    root.getChildren().add(item);
-                }
-                break;
-            case "Performance":
-                List<Employee<String>> performanceResults = db.highPerformers(4.5);
-                for (Employee<String> emp: performanceResults) {
-                    TreeItem<Employee<String>> item = new TreeItem<>(emp);
-                    root.getChildren().add(item);
-                }
-                break;
-            case "Salary":
-                String[] salaryRange = query.split(",");
-                double minrange = Double.parseDouble(salaryRange[0]);
-                double maxrange = Double.parseDouble(salaryRange[1]);
-                List<Employee<String>> salaryResults = db.employeesInSalaryRange(minrange, maxrange);
-                for (Employee<String> emp: salaryResults) {
-                    TreeItem<Employee<String>> item = new TreeItem<>(emp);
-                    root.getChildren().add(item);
-                }
-                break;
+        try {
+            switch (searchBy) {
+                case "Name":
+                    List<Employee<String>> nameResults = db.searchByName(query);
+                    for (Employee<String> emp: nameResults) {
+                        TreeItem<Employee<String>> item = new TreeItem<>(emp);
+                        root.getChildren().add(item);
+                    }
+                    break;
+                case "Department":
+                    List<Employee<String>> departmentResults = db.findByDepartment(query);
+                    for (Employee<String> emp: departmentResults) {
+                        TreeItem<Employee<String>> item = new TreeItem<>(emp);
+                        root.getChildren().add(item);
+                    }
+                    break;
+                case "Performance":
+                    List<Employee<String>> performanceResults = db.highPerformers(4.5);
+                    for (Employee<String> emp: performanceResults) {
+                        TreeItem<Employee<String>> item = new TreeItem<>(emp);
+                        root.getChildren().add(item);
+                    }
+                    break;
+                case "Salary":
+                    String[] salaryRange = query.split(",");
+                    double minrange = Double.parseDouble(salaryRange[0]);
+                    double maxrange = Double.parseDouble(salaryRange[1]);
+                    List<Employee<String>> salaryResults = db.employeesInSalaryRange(minrange, maxrange);
+                    for (Employee<String> emp: salaryResults) {
+                        TreeItem<Employee<String>> item = new TreeItem<>(emp);
+                        root.getChildren().add(item);
+                    }
+                    break;
+            }
+        } catch(Exception e) {
+            System.out.println("There was a problem searching for your query: " + e);
         }
+
         employeeTable.setRoot(root);
         employeeTable.setShowRoot(false);
     }
@@ -229,6 +228,7 @@ public class HelloController {
     @FXML
     void sortEmployeesHandler(ActionEvent event) {
         String sortBy = sortEmployees.getValue().toString();
+
         TreeItem<Employee<String>> root = new TreeItem<>(new Employee<>("","","",0.0,0.0,0, false));
         root.setExpanded(true);
 
@@ -287,7 +287,7 @@ public class HelloController {
                     break;
             }
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "There was a problem with sorting employees", e);
+            System.out.println("There was a problem with searching for employees" + e);
         } finally {
 
         }
@@ -304,39 +304,43 @@ public class HelloController {
     }
 
     @FXML
-    void addEmployeeButtonHandler(ActionEvent event) {
+    void addEmployeeButtonHandler(ActionEvent event) throws EmptyFieldException, InvalidSalaryException {
         // Get input fields
         try {
-        String firstName = employeeFirstname.getText();
-        String lastName = employeeLastname.getText();
-        String selectedDepartment = departmentComboBox.getSelectionModel().getSelectedItem().toString();
-        Double salary = Double.parseDouble(employeeSalary.getText());
-        System.out.println("Checkbox selected? " + employeeInService.isSelected());
-        boolean isChecked = employeeInService.isSelected();
+
+//            System.out.println("An issue with new employee department: " + e);
+            String firstName = employeeFirstname.getText();
+            String lastName = employeeLastname.getText();
+            Double salary = Double.parseDouble(employeeSalary.getText());
+            String selectedDepartment = departmentComboBox.getSelectionModel().getSelectedItem().toString();
+            boolean isChecked = employeeInService.isSelected();
+
+            if (firstName == null | lastName == null) {
+                throw new EmptyFieldException("Employee name fields must not be empty");
+            }
+            if (salary <= 0) {
+                throw new InvalidSalaryException("Employees have to be paid for their work");
+            }
 
 
 
-        // Add employee to treechild
-
+            // Add employee to treechild
             db.addEmployee(new Employee<>(UUID.randomUUID().toString(), String.format(firstName + " " + lastName), selectedDepartment, salary, 4.8, 5, isChecked));
             String status = String.format("Employee %s successfully added.", (firstName + " " + lastName));
             System.out.println(status);
         } catch (Exception e) {
-            System.out.printf("Error when getting field values %s", e);
+            System.out.println("There was a problem adding an employee: " + e);
         }
-
     }
 
     @FXML
-    void deleteEmployeeButtonHandler(ActionEvent event) {
+    void deleteEmployeeButtonHandler(ActionEvent event) throws EmployeeNotFoundException {
         // Stream hashmap and filter to get object with name contains
-        Employee employeeToDelete = db.searchByName(employeeFirstname.getText()).get(0);
         try {
+            Employee employeeToDelete = db.searchByName(employeeFirstname.getText()).get(0);
             db.removeEmployee(employeeToDelete.getEmployeeId().toString()); // remove employee from database
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "There was an issue deleting an employee: ", e);
-        } finally {
-            System.out.printf("Successfully deleted %s", employeeFirstname.getText());
+            System.out.println("Issue with deleting employee: " + e);
         }
     }
 
@@ -379,18 +383,14 @@ public class HelloController {
 
     @FXML
     void applyRaiseButtonHandler(ActionEvent event) {
-        try {
-            db.giveRaise(4.5, 1000);
-            System.out.println("Ghs1000.00 raise added to all high performance employees.");
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, "There was a problem giving raises to employees: ", e);
-        } finally {}
+        db.giveRaise(4.5, 1000);
+        System.out.println("Ghs1000.00 raise added to all high performance employees.");
+
     }
 
     @FXML
     void computeSalaryButtonHandler(ActionEvent event) {
         String dep = averageSalaryDepartment.getValue();
-        try {
             switch (dep) {
                 case "IT":
                     double itAverage = db.averageSalaryByDepartment(dep);
@@ -409,12 +409,7 @@ public class HelloController {
                     double roundedHR = bdHR.doubleValue();
                     averageSalaryText.setText(String.format("%f", roundedHR));
                     break;
-            }
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, "There was a problem computing department salary average", e);
-        } finally {
-
-        }
+    }
     }
 
 }

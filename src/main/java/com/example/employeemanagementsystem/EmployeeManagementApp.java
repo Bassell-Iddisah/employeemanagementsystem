@@ -28,7 +28,7 @@ public class EmployeeManagementApp {
             System.out.println("All Employees:\n");
             db.getAllEmployees().forEach(System.out::println);
 
-            // Search by department with exception handling
+            // Search by department
             System.out.println("IT Department:\n");
             db.findByDepartment("IT").forEach(System.out::println);
 
@@ -82,8 +82,11 @@ public class EmployeeManagementApp {
         if (employee.getName() == null || employee.getName().trim().isEmpty()) {
             throw new IllegalArgumentException("Employee name cannot be empty.");
         }
-        if (employee.getSalary() < 0) {
+        if (employee.getSalary() <= 0) {
             throw new InvalidSalaryException("Salary cannot be negative for " + employee.getName());
+        }
+        if (employee.getDepartment() == null) {
+            throw new InvalidDepartmentException("Employee must belong to a department");
         }
         db.addEmployee(employee);
     }
