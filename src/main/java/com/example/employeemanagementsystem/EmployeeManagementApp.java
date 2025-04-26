@@ -38,6 +38,7 @@ public class EmployeeManagementApp {
 
             // Sort by salary
             List<Employee<String>> sortedBySalary = db.getAllEmployees();
+            boolean sameType = sortedBySalary.get(1).getClass() == sortedBySalary.get(0).getClass();
             sortedBySalary.sort(new EmployeeSalaryComparator<>());
             System.out.println("Employees Sorted by Salary:\n");
             sortedBySalary.forEach(System.out::println);
