@@ -174,13 +174,18 @@ public class HelloController {
     }
 
     @FXML
-    void searchButtonHandler(ActionEvent event) {
+    void searchButtonHandler(ActionEvent event) throws EmptyFieldException {
         // get search option and query
         String searchBy = filterComboBox.getValue();
         String query = searchFilter.getText();
 
         TreeItem<Employee<String>> root = new TreeItem<>(new Employee<>("","","",0.0,0.0,0, false));
         root.setExpanded(true);
+
+        if (query == "" | query == null) {
+            throw new EmptyFieldException("Must enter a query to search by");
+//            System.out.println("Must enter a query to search by");
+        }
 
         // Display results as per search option and query
         try {
@@ -311,6 +316,7 @@ public class HelloController {
 //            System.out.println("An issue with new employee department: " + e);
             String firstName = employeeFirstname.getText();
             String lastName = employeeLastname.getText();
+            boolean isTheSame = firstName == lastName;
             Double salary = Double.parseDouble(employeeSalary.getText());
             String selectedDepartment = departmentComboBox.getSelectionModel().getSelectedItem().toString();
             boolean isChecked = employeeInService.isSelected();
